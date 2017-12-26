@@ -24,9 +24,9 @@ def define_flags():
     tf.app.flags.DEFINE_integer('img_width', 64, 'image\'s width')
     tf.app.flags.DEFINE_integer('img_height', 64, 'image\'\'s height')
     tf.app.flags.DEFINE_integer('img_dim', 3, 'image\'s dimention')
-    tf.app.flags.DEFINE_integer('style_presets_n', 128, 'num of font embedding ids')
+    tf.app.flags.DEFINE_integer('style_presets_n', 64, 'num of font embedding ids')
     tf.app.flags.DEFINE_integer('style_z_size', 100, 'z size')
-    tf.app.flags.DEFINE_integer('batch_size', 128, 'batch size')
+    tf.app.flags.DEFINE_integer('batch_size', 64, 'batch size')
 
     # Common Directories
     gan_dir = 'result/gan/' + now_str
@@ -37,7 +37,7 @@ def define_flags():
     tf.app.flags.DEFINE_integer('gan_epoch_n', 10000, 'num of epoch for training GAN')
     tf.app.flags.DEFINE_integer('critic_n', 5, 'num of critics to approximate wasserstein distance')
     tf.app.flags.DEFINE_integer('sample_imgs_interval', 1, 'interval epochs of saving images')
-    tf.app.flags.DEFINE_integer('sample_col_n', 40, 'sample images\' column num')
+    tf.app.flags.DEFINE_integer('sample_col_n', 10, 'sample images\' column num')
     tf.app.flags.DEFINE_integer('keep_ckpt_interval', 250, 'interval of keeping ckpts')
     tf.app.flags.DEFINE_boolean('run_tensorboard', True, 'run tensorboard or not')
     tf.app.flags.DEFINE_integer('tensorboard_port', 6006, 'port of tensorboard')
