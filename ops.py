@@ -64,10 +64,10 @@ def deconv2d(x, out_shape, k, s, p, stddev=0.02, name='deconv2d'):
 
 
 def upsample2x(x):
-    upsampled = tf.concat([x for _ in range(4)], axis=3)
-    return tf.depth_to_space(x, 2)
+    return tf.depth_to_space(tf.concat([x for _ in range(4)], axis=3), 2)
 
-def downsample2x(x)
+
+def downsample2x(x):
     return tf.add_n([x[:, ::2, ::2, :], x[:, 1::2, ::2, :], x[:, ::2, 1::2, :], x[:, 1::2, 1::2, :]]) / 4.
 
 
