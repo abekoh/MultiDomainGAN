@@ -68,6 +68,8 @@ class Discriminator():
             x = self._residual_block(x, times * self.smallest_unit_n, 'residual_{}'.format(i))
 
         x = tf.reshape(x, [-1, 4 * 4 * 8 * self.smallest_unit_n])
-        x = linear(x, 1)
+
+        with tf.variable_scope('last'):
+            x = linear(x, 1)
 
         return x
