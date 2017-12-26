@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# added by author
+*.png
+*.h5
+src/
+result/

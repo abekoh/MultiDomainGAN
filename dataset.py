@@ -66,11 +66,13 @@ class Dataset():
         print('preparing dataset...')
         self.keys_queue = list()
         self.label_to_id = dict()
+        self.max_label_img_n = 0
         for i, (key, val) in enumerate(self.h5file.items()):
             img_n = len(val['imgs'])
             for j in range(img_n):
                 self.keys_queue.append((key, j))
             self.label_to_id[key] = i
+            self.max_label_img_n = max(img_n, self.max_label_img_n)
         self.label_n = len(self.label_to_id)
         if self.is_mem:
             self._put_on_mem()
@@ -132,12 +134,12 @@ class Dataset():
 
     def _put_on_mem(self):
         print('putting data on memory...')
-        self.imgs = np.empty((self.label_n, self.img_n, self.img_width, self.img_height, self.img_dim), np.float32)
+        self.imgs = np.empty((self.label_n, self.max_label_img_n, self.img_width, self.img_height, self.img_dim), np.float32)
         self.label_to_img_n = dict()
         for i, key in enumerate(self.h5file.keys()):
             val = self.h5file[key + '/imgs'].value
-            if len(val) < self.img_n:
-                white_imgs = np.ones((self.img_n - len(val), self.img_width, self.img_height, self.img_dim), np.float32)
+            if len(val) < self.max_label_img_n:
+                white_imgs = np.ones((self.max_label_img_n - len(val), self.img_width, self.img_height, self.img_dim), np.float32)
                 val = np.concatenate((val, white_imgs), axis=0)
             self.imgs[i] = val
             self.label_to_img_n[key] = len(self.imgs[i])

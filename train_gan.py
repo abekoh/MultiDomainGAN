@@ -24,8 +24,8 @@ class TrainingMultiDomainGAN():
         global FLAGS
         self._setup_dirs()
         self._save_flags()
-        self._prepare_training()
         self._load_dataset()
+        self._prepare_training()
 
     def _setup_dirs(self):
         '''
@@ -60,7 +60,7 @@ class TrainingMultiDomainGAN():
 
         Set up dataset. All of data is for training, and they are shuffled.
         '''
-        self.dataset = Dataset(FLAGS.real_h5, 'r', FLAGS.img_width, FLAGS.img_height, FLAGS.img_dim)
+        self.dataset = Dataset(FLAGS.real_h5, 'r', FLAGS.img_width, FLAGS.img_height, FLAGS.img_dim, True)
         self.dataset.set_load_data()
         self.dataset.shuffle()
 
@@ -113,7 +113,7 @@ class TrainingMultiDomainGAN():
                 discriminator = Discriminator(k_size=3, smallest_unit_n=64)
 
                 # If sum of (font/char)_ids is less than -1, z is generated from uniform distribution
-                style_z = tf.cond(tf.reduce_all(tf.equal(self.style_ids[batch_start:batch_end]), -1),
+                style_z = tf.cond(tf.reduce_all(tf.equal(self.style_ids[batch_start:batch_end], -1)),
                                   lambda: tf.random_uniform((divided_batch_size, FLAGS.style_z_size), -1, 1),
                                   lambda: tf.nn.embedding_lookup(self.style_presets, self.style_ids[batch_start:batch_end]))
                 domain_z = tf.one_hot(self.domain_ids[batch_start:batch_end], self.domain_z_size)
@@ -219,7 +219,7 @@ class TrainingMultiDomainGAN():
                 # Maximize character likelihood
 
             # Calculate losses for tensorboard
-            real_imgs = self.dataset.get_random(FLAGS.batch_size, is_label=False)
+            real_imgs = self.dataset.get_random(FLAGS.batch_size)
             style_ids, domain_ids = self._get_ids()
             summary = self.sess.run(self.summary, feed_dict={self.style_ids: style_ids,
                                                              self.domain_ids: domain_ids,

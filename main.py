@@ -24,9 +24,9 @@ def define_flags():
     tf.app.flags.DEFINE_integer('img_width', 64, 'image\'s width')
     tf.app.flags.DEFINE_integer('img_height', 64, 'image\'\'s height')
     tf.app.flags.DEFINE_integer('img_dim', 3, 'image\'s dimention')
-    tf.app.flags.DEFINE_integer('style_presets_n', 256, 'num of font embedding ids')
+    tf.app.flags.DEFINE_integer('style_presets_n', 128, 'num of font embedding ids')
     tf.app.flags.DEFINE_integer('style_z_size', 100, 'z size')
-    tf.app.flags.DEFINE_integer('batch_size', 512, 'batch size')
+    tf.app.flags.DEFINE_integer('batch_size', 128, 'batch size')
 
     # Common Directories
     gan_dir = 'result/gan/' + now_str
@@ -48,11 +48,11 @@ def main(argv=None):
         assert FLAGS.real_pngs != '', 'have to set --real_pngs'
         assert FLAGS.real_h5 != '', 'have to set --real_h5'
         from dataset import Dataset
-        dataset = Dataset(FLAGS.real_h5, 'w', FLAGS.img_width, FLAGS.img_height, FLAGS.img_dim)
+        dataset = Dataset(FLAGS.real_h5, 'w', FLAGS.img_width, FLAGS.img_height, FLAGS.img_dim, True)
         dataset.load_imgs(FLAGS.real_pngs)
         del dataset
     if FLAGS.train_g:
-        assert FLAGS.font_h5 != '', 'have to set --font_h5'
+        assert FLAGS.real_h5 != '', 'have to set --font_h5'
         from train_gan import TrainingMultiDomainGAN
         gan = TrainingMultiDomainGAN()
         gan.train()

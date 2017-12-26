@@ -6,13 +6,13 @@ def lrelu(x, leak=0.2):
     return tf.maximum(x, leak * x)
 
 
-def batch_norm(x, is_train, eps=1e-5, decay=0.9, scope='batch_norm'):
+def batchnorm(x, is_train, eps=1e-5, decay=0.9, name='batchnorm'):
     return tf.contrib.layers.batch_norm(x, decay=decay, updates_collections=None, epsilon=eps,
-                                        scale=True, is_training=is_train, scope=scope)
+                                        scale=True, is_training=is_train, scope=name)
 
 
-def layer_norm(x, scope='layer_norm'):
-    return tf.contrib.layers.layer_norm(x, scope=scope)
+def layernorm(x, name='layernorm'):
+    return tf.contrib.layers.layer_norm(x, scope=name)
 
 
 def linear(x, n_out, name='linear'):
@@ -63,11 +63,12 @@ def deconv2d(x, out_shape, k, s, p, stddev=0.02, name='deconv2d'):
         return deconv
 
 
-def avgpool2d(x, k, s, p, name='avgpool2d'):
-    strides = [1, s, s, 1]
-    ksize = [1, k, k, 1]
+def upsample2x(x):
+    upsampled = tf.concat([x for _ in range(4)], axis=3)
+    return tf.depth_to_space(x, 2)
 
-    return tf.nn.avg_pool(x, ksize=ksize, strides=strides, padding=p, name=name)
+def downsample2x(x)
+    return tf.add_n([x[:, ::2, ::2, :], x[:, 1::2, ::2, :], x[:, ::2, 1::2, :], x[:, 1::2, 1::2, :]]) / 4.
 
 
 def average_gradients(tower_grads):
