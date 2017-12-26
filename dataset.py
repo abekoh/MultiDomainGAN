@@ -113,16 +113,12 @@ class Dataset():
         return self._get(keys_list)
 
     def get_random(self, batch_size):
-        keys_list = list()
-        for _ in range(batch_size):
-            keys_list.append(random.choice(self.keys_queue))
+        keys_list = random.sample(self.keys_queue, batch_size)
         return self._get(keys_list)
 
     def get_random_by_labels(self, batch_size, labels):
         filtered_keys_queue = list(filter(lambda x: x[0] in labels, self.keys_queue))
-        keys_list = list()
-        for _ in range(batch_size):
-            keys_list.append(random.choice(filtered_keys_queue))
+        keys_list = random.sample(filtered_keys_queue, batch_size)
         return self._get(keys_list)
 
     def _get_from_file(self, keys_list):
