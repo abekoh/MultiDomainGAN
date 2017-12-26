@@ -11,6 +11,10 @@ def batch_norm(x, is_train, eps=1e-5, decay=0.9, scope='batch_norm'):
                                         scale=True, is_training=is_train, scope=scope)
 
 
+def layer_norm(x, scope='layer_norm'):
+    return tf.contrib.layers.layer_norm(x, scope=scope)
+
+
 def linear(x, n_out, name='linear'):
     with tf.variable_scope(name):
         shape = x.shape.as_list()
@@ -57,6 +61,13 @@ def deconv2d(x, out_shape, k, s, p, stddev=0.02, name='deconv2d'):
         deconv = tf.reshape(tf.nn.bias_add(deconv, b), deconv.get_shape())
 
         return deconv
+
+
+def avgpool2d(x, k, s, p, name='avgpool2d'):
+    strides = [1, s, s, 1]
+    ksize = [1, k, k, 1]
+
+    return tf.nn.avg_pool(x, ksize=ksize, strides=strides, padding=p, name=name)
 
 
 def average_gradients(tower_grads):
