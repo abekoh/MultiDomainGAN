@@ -91,6 +91,12 @@ class Dataset():
             ids.append(self.label_to_id[label])
         return ids
 
+    def get_labels(self):
+        labels = list()
+        for key in self.label_to_id.keys():
+            labels.append(key)
+        return labels
+
     def get_batch(self, batch_i, batch_size):
         keys_list = list()
         for i in range(batch_i * batch_size, (batch_i + 1) * batch_size):
