@@ -277,4 +277,4 @@ class TrainingMultiDomainGAN():
             self._init_sample_imgs_inputs()
         concated_img = self._generate_img(self.sample_style_ids, self.sample_domain_ids,
                                           self.sample_row_n, FLAGS.sample_col_n)
-        concated_img.save(os.path.join(self.dst_samples, '{}.png'.format(epoch_i)))
+        concated_img.save(os.path.join(self.dst_samples, '{:06d}.png'.format(epoch_i)))
