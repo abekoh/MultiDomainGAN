@@ -34,10 +34,10 @@ def define_flags():
     tf.app.flags.DEFINE_string('real_pngs', '', 'path of real images\' directory')
 
     # Train GAN
-    tf.app.flags.DEFINE_integer('gan_epoch_n', 10000, 'num of epoch for training GAN')
+    tf.app.flags.DEFINE_integer('gan_epoch_n', 20000, 'num of epoch for training GAN')
     tf.app.flags.DEFINE_integer('critic_n', 5, 'num of critics to approximate wasserstein distance')
     tf.app.flags.DEFINE_integer('sample_imgs_interval', 10, 'interval epochs of saving images')
-    tf.app.flags.DEFINE_integer('sample_col_n', 10, 'sample images\' column num')
+    tf.app.flags.DEFINE_integer('sample_col_n', 8, 'sample images\' column num')
     tf.app.flags.DEFINE_integer('keep_ckpt_interval', 250, 'interval of keeping ckpts')
     tf.app.flags.DEFINE_boolean('run_tensorboard', True, 'run tensorboard or not')
     tf.app.flags.DEFINE_integer('tensorboard_port', 6006, 'port of tensorboard')
